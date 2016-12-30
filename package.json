@@ -1,16 +1,23 @@
 {
   "name": "application-name",
   "version": "0.0.1",
+  "scripts": {
+    "dev": "webpack --config webpack.config.dev.js"
+  },
   "devDependencies": {
     "body-parser": "^1.15.2",
     "browser-sync": "^2.18.5",
     "css-loader": "^0.26.1",
     "express": "^4.14.0",
     "glob": "^7.1.1",
+    "html-webpack-plugin": "^2.24.1",
     "request": "^2.79.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.14.0"
+  },
+  "dependencies": {
+    "jquery": "^1.12.3"
   }
 }
