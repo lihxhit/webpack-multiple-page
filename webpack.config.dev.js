@@ -6,20 +6,39 @@
 // webpack.config.js
 let glob = require('glob');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
+let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let webpack = require('webpack');
 let webpackConfig = {
     /* 一些webpack基础配置 */
-    entry:{
-
-    },
-    output:{
+    entry: {},
+    output: {
         path: './dist/',
-        filename: '[name].[chunkhash:8].js'
+        filename: '/js/[name].js'
     },
-    plugins:[new webpack.optimize.CommonsChunkPlugin({
-        name: "commons",
-        filename:'common.[chunkhash:8].js'
-    })]
+    devtool: 'cheap-module-inline-source-map',
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+                query: {
+                    presets: ['es2015']
+                }
+            },
+            {
+                test: /(\.css|\.less)$/,
+                loader: ExtractTextPlugin.extract('css?sourceMap!postcss!less')
+            }
+        ]
+    },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "commons",
+            filename: 'common.js'
+        }),
+        new ExtractTextPlugin('/style/[name].css'),
+    ]
 };
 
 // 获取指定路径下的入口文件
@@ -27,7 +46,7 @@ function getEntries(globPath) {
     let files = glob.sync(globPath),
         entries = {};
 
-    files.forEach(function(filePath) {
+    files.forEach(function (filePath) {
         let split = filePath.split('/');
         let name = split[split.length - 2];
 
@@ -39,7 +58,7 @@ function getEntries(globPath) {
 
 let entries = getEntries('src/**/index.js');
 
-Object.keys(entries).forEach(function(name) {
+Object.keys(entries).forEach(function (name) {
     // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
     webpackConfig.entry[name] = entries[name];
 
@@ -52,7 +71,7 @@ Object.keys(entries).forEach(function(name) {
         // 自动将引用插入html
         inject: true,
         // 每个html引用的js模块，也可以在这里加上vendor等公用模块
-        chunks: [name,'commons']
+        chunks: [name, 'commons']
     });
     webpackConfig.plugins.push(plugin);
 });
