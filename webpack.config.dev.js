@@ -3,7 +3,7 @@
  * @date 2016/12/29
  * @description
  */
-// webpack.config.js
+// webpack.config for dev
 let glob = require('glob');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -29,7 +29,9 @@ let webpackConfig = {
             {
                 test: /(\.css|\.less)$/,
                 loader: ExtractTextPlugin.extract('css?sourceMap!postcss!less')
-            }
+            },
+            {test: /\.(jpe?g|png|gif)$/i, loader: 'file?name=[name].[ext]'},
+            {test: /\.ico$/, loader: 'file?name=[name].[ext]'},
         ]
     },
     plugins: [
