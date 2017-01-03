@@ -1,9 +1,9 @@
 {
-  "name": "application-name",
-  "version": "0.0.1",
+  "name": "webpack-multiple-page",
+  "version": "0.1.0",
   "scripts": {
     "dev": "node tools/devServer.js",
-    "prod": "webpack --config webpack.config.prod.js"
+    "prod": "undone yet"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
