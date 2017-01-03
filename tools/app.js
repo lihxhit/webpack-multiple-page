@@ -3,7 +3,7 @@
  */
 let express = require('express');
 let path = require('path');
-let favicon = require('serve-favicon');
+// let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
@@ -24,7 +24,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './dist')));
 app.use(webpackDevMiddleware(compiler, {
     // options
-    publicPath: config.output.publicPath
+    publicPath: config.output.publicPath,
+    noInfo:true
 }));
 app.use(webpackHotMiddleware(compiler));
 app.use('/', index);
@@ -44,7 +45,7 @@ app.use(function(err, req, res, next) {
 
     // render the error page
     res.status(err.status || 500);
-    res.end(err.status);
+    res.end(`${err.status}`);
 });
 
 module.exports = app;

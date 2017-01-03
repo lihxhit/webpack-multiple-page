@@ -34,23 +34,30 @@ let webpackConfig = {
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'url?limit=8192&name=/image/[name].[hash].[ext]'
+                loader: 'url?name=image/[name].[hash].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
                 test: /\.gif$/,
-                loader: 'file?name=/image/[name].[hash].[ext]'
+                loader: 'file?name=image/[name].[hash].[ext]'
             },
             {
                 test: /\.ico$/,
-                loader: 'file?name=/image/[name].[hash].[ext]'
+                loader: 'file?name=image/[name].[hash].[ext]'
             },
             {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&mimetype=application/font-woff&name=fonts/[hash:8].[ext]'},
-            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream&name=fonts/[hash:8].[ext]'},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=fonts/[hash:8].[ext]'}
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[hash:8].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'url?name=fonts/[hash:8].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?name=fonts/[hash:8].[ext]'}
         ]
     },
+    postcss: ()=> [
+        require('postcss-fixes')(),
+        require('autoprefixer')(),
+        require('cssnano')({
+        'safe': true, // I would recommend using cssnano only in safe mode
+        'calc': false // calc is no longer necessary, as it is already done by postcss-fixes due to precision rounding reasons
+    })],
     plugins: [
         new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({

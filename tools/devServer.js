@@ -7,11 +7,12 @@
 let app = require('./app');
 let debug = require('debug')('server:info');
 let http = require('http');
+let bs = require("browser-sync").create();
 /**
  * Get port from environment and store in Express.
  */
 
-let port = normalizePort(process.env.PORT || '3000');
+let port = normalizePort(process.env.PORT || '3002');
 app.set('port', port);
 /**
  * Create HTTP server.
@@ -22,9 +23,16 @@ let server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port,function(){
+    // .init starts the server
+    bs.init({
+        files: ["./src/**/*.html"],
+        proxy: "localhost:"+port
+    });
+});
 server.on('error', onError);
 server.on('listening', onListening);
+
 
 /**
  * Normalize a port into a number, string, or false.
@@ -84,4 +92,5 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+
 }

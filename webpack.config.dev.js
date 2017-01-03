@@ -23,6 +23,10 @@ let webpackConfig = {
     module: {
         loaders: [
             {
+                test: /\.html$/,
+                loader: 'html'
+            },
+            {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
@@ -36,23 +40,27 @@ let webpackConfig = {
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'url?limit=8192&name=/image/[name].[ext]'
+                loader: 'file?name=image/[name].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
                 test: /\.gif$/,
-                loader: 'file?name=/image/[name].[ext]'
+                loader: 'file?name=image/[name].[ext]'
             },
             {
                 test: /\.ico$/,
-                loader: 'file?name=/image/[name].[ext]'
+                loader: 'file?name=image/[name].[ext]'
             },
             {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&mimetype=application/font-woff&name=fonts/[name].[ext]'},
-            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream&name=fonts/[name].[ext]'},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=fonts/[name].[ext]'}
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[name].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'}
         ]
     },
+    postcss: ()=> [
+        require('postcss-fixes')(),
+        require('autoprefixer')()
+    ],
     plugins: [
         // Webpack 1.0
         new webpack.optimize.OccurenceOrderPlugin(),
@@ -82,7 +90,7 @@ function getEntries(globPath) {
         let split = filePath.split('/');
         let name = split[split.length - 2];
 
-        entries[name] = ['./' + filePath,'webpack-hot-middleware/client'];
+        entries[name] = ['./tools/webpack-public-path','./' + filePath,'webpack-hot-middleware/client?reload=true'];
     });
 
     return entries;
