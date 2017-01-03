@@ -5,3 +5,13 @@
  */
 require('../style/common.less');
 require('./index.less');
+
+if(process.env.NODE_ENV === 'development'){
+    console.log('!!')
+}else{
+    alert('prod!')
+}
+
+if (module.hot) {
+    module.hot.accept();
+}

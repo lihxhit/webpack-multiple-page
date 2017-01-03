@@ -3,17 +3,21 @@
  * @date 2016/12/29
  * @description
  */
-// webpack.config for dev
+// webpack.config for production
 let glob = require('glob');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let webpack = require('webpack');
+let path = require('path');
 let webpackConfig = {
     /* 一些webpack基础配置 */
-    entry: {},
+    entry: {
+
+    },
     output: {
-        path: './dist/',
-        filename: '/js/[name].js'
+        publicPath:'/',
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'js/[name].js'
     },
     devtool: 'cheap-module-inline-source-map',
     module: {
@@ -28,18 +32,44 @@ let webpackConfig = {
             },
             {
                 test: /(\.css|\.less)$/,
-                loader: ExtractTextPlugin.extract('css?sourceMap!postcss!less')
+                loaders: ['style', 'css?sourceMap', 'postcss', 'less?sourceMap']
             },
-            {test: /\.(jpe?g|png|gif)$/i, loader: 'file?name=[name].[ext]'},
-            {test: /\.ico$/, loader: 'file?name=[name].[ext]'},
+            {
+                test: /\.(jpe?g|png)$/i,
+                loader: 'url?limit=8192&name=/image/[name].[ext]'
+                // &publicPath=/assets/image/&outputPath=app/images/'
+            },
+            {
+                test: /\.gif$/,
+                loader: 'file?name=/image/[name].[ext]'
+            },
+            {
+                test: /\.ico$/,
+                loader: 'file?name=/image/[name].[ext]'
+            },
+            {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'},
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&mimetype=application/font-woff&name=fonts/[name].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream&name=fonts/[name].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=fonts/[name].[ext]'}
         ]
     },
     plugins: [
+        // Webpack 1.0
+        new webpack.optimize.OccurenceOrderPlugin(),
+        // Webpack 2.0 fixed this mispelling
+        // new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        new webpack.DefinePlugin({
+            'process.env'  : {
+                'NODE_ENV' : JSON.stringify('development')
+            }
+        }),
         new webpack.optimize.CommonsChunkPlugin({
             name: "commons",
-            filename: 'common.js'
+            filename: 'js/common.js'
         }),
-        new ExtractTextPlugin('/style/[name].css'),
+        new ExtractTextPlugin('style/[name].css'),
     ]
 };
 
@@ -52,7 +82,7 @@ function getEntries(globPath) {
         let split = filePath.split('/');
         let name = split[split.length - 2];
 
-        entries[name] = './' + filePath;
+        entries[name] = ['./' + filePath,'webpack-hot-middleware/client'];
     });
 
     return entries;
