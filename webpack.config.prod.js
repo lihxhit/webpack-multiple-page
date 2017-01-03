@@ -8,15 +8,16 @@ let glob = require('glob');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let webpack = require('webpack');
+let path = require('path');
 let webpackConfig = {
     /* 一些webpack基础配置 */
     entry: {},
     output: {
         publicPath:'/',
-        path: './dist/',
+        path: path.resolve(__dirname, 'dist'),
         filename: 'js/[name].[chunkhash:8].js'
     },
-    devtool: 'cheap-module-inline-source-map',
+    devtool: 'source-map',
     module: {
         loaders: [
             {
@@ -32,26 +33,41 @@ let webpackConfig = {
                 loader: ExtractTextPlugin.extract('css?sourceMap!postcss!less')
             },
             {
-                test: /\.(jpe?g|png|gif)$/i,
-                loader: 'file?name=/image/[name].[hash].[ext]'
+                test: /\.(jpe?g|png)$/i,
+                loader: 'url?limit=8192&name=/image/[name].[hash].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
+            },
+            {
+                test: /\.gif$/,
+                loader: 'file?name=/image/[name].[hash].[ext]'
             },
             {
                 test: /\.ico$/,
                 loader: 'file?name=/image/[name].[hash].[ext]'
             },
             {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'}
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?limit=10000&mimetype=application/font-woff&name=fonts/[hash:8].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream&name=fonts/[hash:8].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml&name=fonts/[hash:8].[ext]'}
         ]
     },
     plugins: [
+        new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.DefinePlugin({
+            'process.env'  : {
+                'NODE_ENV' : JSON.stringify('production')
+            }
+        }),
         new webpack.optimize.CommonsChunkPlugin({
             name: "commons",
             filename: 'js/common.[chunkhash:8].js'
         }),
-        new ExtractTextPlugin('style/[name].[chunkhash:8].css'),
+        new ExtractTextPlugin('style/[name].[contenthash:8].css'),
+        // Eliminate duplicate packages when generating bundle
+        new webpack.optimize.DedupePlugin(),
+
+        // Minify JS
+        new webpack.optimize.UglifyJsPlugin()
     ]
 };
 
