@@ -27,6 +27,10 @@ let webpackConfig = {
                 loader: 'html'
             },
             {
+                test: /\.ejs$/,
+                loaders: ['html','ejs-html']
+            },
+            {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
@@ -96,6 +100,7 @@ function getEntries(globPath) {
     return entries;
 }
 let entries = getEntries('src/**/index.js');
+
 Object.keys(entries).forEach(function (name) {
     // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
     webpackConfig.entry[name] = entries[name];

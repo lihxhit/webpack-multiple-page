@@ -8,7 +8,6 @@ let path = require('path');
 /* GET home page. */
 router.get('/', function(req, res, next) {
     // res.render('index', { title: 'Express' });
-    // console.log('!!!!!!!!!!!',__dirname);
     res.redirect('/about.html')
 });
 

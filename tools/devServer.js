@@ -26,7 +26,7 @@ let server = http.createServer(app);
 server.listen(port,function(){
     // .init starts the server
     bs.init({
-        files: ["./src/**/*.html"],
+        files: ["./src/**/*.ejs"],
         proxy: "localhost:"+port
     });
 });

@@ -9,6 +9,7 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let webpack = require('webpack');
 let path = require('path');
+const fs = require('fs');
 let webpackConfig = {
     /* 一些webpack基础配置 */
     entry: {},
@@ -21,12 +22,17 @@ let webpackConfig = {
     module: {
         loaders: [
             {
+                test: /\.html$/,
+                loader: 'html'
+            },
+            {
+                test: /\.ejs$/,
+                loaders: ['html','ejs-html']
+            },
+            {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015']
-                }
+                loader: 'babel?presets[]=es2015',
             },
             {
                 test: /(\.css|\.less)$/,
@@ -34,7 +40,7 @@ let webpackConfig = {
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'url?name=image/[name].[hash].[ext]'
+                loader: 'file?name=image/[name].[hash].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
@@ -46,9 +52,9 @@ let webpackConfig = {
                 loader: 'file?name=image/[name].[hash].[ext]'
             },
             {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url?name=fonts/[hash:8].[ext]'},
-            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'url?name=fonts/[hash:8].[ext]'},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?name=fonts/[hash:8].[ext]'}
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'}
         ]
     },
     postcss: ()=> [
@@ -98,7 +104,11 @@ let entries = getEntries('src/**/index.js');
 Object.keys(entries).forEach(function (name) {
     // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
     webpackConfig.entry[name] = entries[name];
-
+    try{
+        fs.accessSync(`./src/${name}/${name}.ejs`,fs.F_OK);
+    }catch(e){
+        return false;
+    }
     // 每个页面生成一个html
     let plugin = new HtmlWebpackPlugin({
         // 生成出来的html文件名
