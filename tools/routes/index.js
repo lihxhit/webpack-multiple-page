@@ -9,7 +9,7 @@ let path = require('path');
 router.get('/', function(req, res, next) {
     // res.render('index', { title: 'Express' });
     // console.log('!!!!!!!!!!!',__dirname);
-    res.sendfile(path.resolve(__dirname,''));
+    res.redirect('/about.html')
 });
 
 module.exports = router;
