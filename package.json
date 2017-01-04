@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "node tools/devServer.js",
-    "prod": "webpack --config webpack.config.prod.js"
+    "prod": "webpack --config webpack.config.prod.js",
+    "test": "webpack --config webpack.config.test.js"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
