@@ -1,0 +1,138 @@
+@download-win-bg: #247ddc;
+@download-mac-bg: #666666;
+//下载
+#tab-about{
+  .block-download{
+    display: inline-block;
+    margin-top: 24px;
+    .clearfix();
+    .download-btn{
+      float: left;
+      width: 200px;
+      height: 48px;
+      line-height: 47px;
+      border-radius: 4px;
+      color: white;
+      font-size: 14px;
+      text-decoration: none;
+      span{
+        float: left;
+      }
+      .icon{
+        width: 32px;
+        height: 32px;
+        margin: 8px;
+        background-image: url("../../../image/icons.png");
+        position: relative;
+        &:after{
+          position: absolute;
+          content: '';
+          right: -9px;
+          top:-8px;
+          bottom: -8px;
+          width: 1px;
+          background-color: rgba(9, 9, 9, 0.1);
+          box-shadow: 1px 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+      }
+      .title{
+        width: 152px;
+        text-align: center;
+      }
+      &.win{
+        background-color: @download-win-bg;
+        .icon{
+          background-position: 1px -39px;
+        }
+      }
+      &.mac{
+        margin-left: 16px;
+        background-color: @download-mac-bg;
+        .icon{
+          background-position: -32px -39px;
+        }
+      }
+    }
+  }
+}
+
+//SNS
+#tab-about{
+  .block-sns{
+    margin-top: 24px;
+    display: inline-block;
+    ul{
+      list-style: none;
+      .clearfix();
+      margin: 0;
+      padding: 0;
+    }
+    li{
+      float: left;
+      color: #999;
+      a{
+        width: 80px;
+        display: block;
+        text-decoration: none;
+        color: #999;
+        &:hover{
+          color: #247ddc;
+        }
+      }
+      span{
+        line-height: 24px;
+        display: block;
+      }
+      .icon{
+        height: 80px;
+        background-image: url("../../../image/icons.png");
+      }
+      .title{
+        margin-top: 8px;
+      }
+      &+li{
+        margin-left: 110px;
+      }
+    }
+    .fb{
+      .icon{
+        background-position: 0 -80px;
+      }
+      &:hover{
+        .icon{
+          background-position: -80px -80px;
+        }
+      }
+    }
+    .tw{
+      .icon{
+        background-position: 0 -160px;
+      }
+      &:hover{
+        .icon{
+          background-position: -80px -160px;
+        }
+      }
+    }
+    .gp{
+      .icon{
+        background-position: 0 -240px;
+      }
+      &:hover{
+        .icon{
+          background-position: -80px -240px;
+        }
+      }
+    }
+    .yt{
+      .icon{
+        background-position: 0 -320px;
+      }
+      &:hover{
+        .icon{
+          background-position: -80px -320px;
+        }
+      }
+    }
+  }
+}

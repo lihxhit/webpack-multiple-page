@@ -4,7 +4,13 @@
  * @description
  */
 require('../style/common.less');
+require('../style/app.less');
 
+// if(process.env.NODE_ENV === '???'){
+//     console.log('!!')
+// }else{
+//     alert('prod!')
+// }
 
 if (module.hot) {
     module.hot.accept();

@@ -12,7 +12,9 @@ let path = require('path');
 const fs = require('fs');
 let webpackConfig = {
     /* 一些webpack基础配置 */
-    entry: {},
+    entry: {
+        app:'./src/script/app.js'
+    },
     output: {
         publicPath:'/',
         path: path.resolve(__dirname, 'dist'),
@@ -40,16 +42,16 @@ let webpackConfig = {
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'file?name=image/[name].[hash].[ext]'
+                loader: 'file?name=image/[name].[hash:8].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
                 test: /\.gif$/,
-                loader: 'file?name=image/[name].[hash].[ext]'
+                loader: 'file?name=image/[name].[hash:8].[ext]'
             },
             {
                 test: /\.ico$/,
-                loader: 'file?name=image/[name].[hash].[ext]'
+                loader: 'file?name=image/[name].[hash:8].[ext]'
             },
             {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
             {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
@@ -92,33 +94,42 @@ function getEntries(globPath) {
     files.forEach(function (filePath) {
         let split = filePath.split('/');
         let name = split[split.length - 2];
-
-        entries[name] = './' + filePath;
+        let file ='./' + split.slice(0,split.length-1).join('/')+'/index.js';
+        try{
+            fs.accessSync(file,fs.F_OK);
+        }catch(e){
+            file = '';
+        }
+        entries[name] = file;
     });
 
     return entries;
 }
 
-let entries = getEntries('src/**/index.js');
+let entries = getEntries('src/**/index.ejs');
 
 Object.keys(entries).forEach(function (name) {
     // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
-    webpackConfig.entry[name] = entries[name];
+    if(entries[name]){
+        webpackConfig.entry[name] = entries[name];
+    }
+    let chunks = [name,'app','commons'];
     try{
-        fs.accessSync(`./src/${name}/${name}.ejs`,fs.F_OK);
+        fs.accessSync(`./src/${name}/index.js`,fs.F_OK);
     }catch(e){
-        return false;
+        chunks = ['app','commons']
     }
     // 每个页面生成一个html
     let plugin = new HtmlWebpackPlugin({
         // 生成出来的html文件名
         filename: name + '.html',
         // 每个html的模版，这里多个页面使用同一个模版
-        template: `./src/${name}/${name}.ejs`,
+        template: `./src/${name}/index.ejs`,
         // 自动将引用插入html
         inject: true,
         // 每个html引用的js模块，也可以在这里加上vendor等公用模块
-        chunks: [name, 'commons']
+        chunks: chunks,
+        chunksSortMode:'none'
     });
     webpackConfig.plugins.push(plugin);
 });

@@ -9,10 +9,11 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let webpack = require('webpack');
 let path = require('path');
+const fs = require('fs');
 let webpackConfig = {
     /* 一些webpack基础配置 */
     entry: {
-
+        app:['./tools/webpack-public-path','./src/script/app.js','webpack-hot-middleware/client?reload=true']
     },
     output: {
         publicPath:'/',
@@ -93,28 +94,40 @@ function getEntries(globPath) {
     files.forEach(function (filePath) {
         let split = filePath.split('/');
         let name = split[split.length - 2];
+        let file ='./' + split.slice(0,split.length-1).join('/')+'index.js';
+        try{
+            fs.accessSync(file,fs.F_OK);
+        }catch(e){
+            file = '';
+        }
+        entries[name] = file?['./tools/webpack-public-path',file,'webpack-hot-middleware/client?reload=true']:['./tools/webpack-public-path','webpack-hot-middleware/client?reload=true'];
 
-        entries[name] = ['./tools/webpack-public-path','./' + filePath,'webpack-hot-middleware/client?reload=true'];
     });
 
     return entries;
 }
-let entries = getEntries('src/**/index.js');
+let entries = getEntries('src/**/index.ejs');
 
 Object.keys(entries).forEach(function (name) {
     // 每个页面生成一个entry，如果需要HotUpdate，在这里修改entry
     webpackConfig.entry[name] = entries[name];
-
+    let chunks = [name,'app','commons'];
+    try{
+        fs.accessSync(`./src/${name}/index.js`,fs.F_OK);
+    }catch(e){
+        chunks = [name,'app','commons']
+    }
     // 每个页面生成一个html
     let plugin = new HtmlWebpackPlugin({
         // 生成出来的html文件名
         filename: name + '.html',
         // 每个html的模版，这里多个页面使用同一个模版
-        template: `./src/${name}/${name}.ejs`,
+        template: `./src/${name}/index.ejs`,
         // 自动将引用插入html
         inject: true,
         // 每个html引用的js模块，也可以在这里加上vendor等公用模块
-        chunks: [name, 'commons']
+        chunks: chunks,
+        chunksSortMode:'none'
     });
     webpackConfig.plugins.push(plugin);
 });

@@ -1,0 +1,33 @@
+@import "tab/about";
+@import "tab/contact";
+@import "tab/invite";
+@import "tab/media";
+@block-title-color:#7e838b;
+@block-subtitle-color:#247ddc;
+@block-abstract-color:#999;
+.nav-tab{
+  padding-top: 64px;
+  width: 720px;
+  margin: 0 auto;
+  .tab-block{
+    padding-bottom: 64px;
+    text-align: center;
+  }
+  .block-title{
+    font-size: 32px;
+    color: @block-title-color;
+    line-height: 40px;
+    margin-bottom: 8px;
+  }
+  .block-subtitle{
+    font-size: 14px;
+    color: @block-subtitle-color;
+    margin-bottom: 8px;
+  }
+  .block-abstract{
+    font-size: 14px;
+    color: @block-abstract-color;
+    line-height: 28px;
+    margin: 0;
+  }
+}

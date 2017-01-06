@@ -1,0 +1,123 @@
+@contact-bg-normal:#f7f8fc;
+@contact-bg-active:#247ddc;
+#tab-contact{
+  .contact-wrap{
+    width: 720px;
+    margin: 0 auto;
+  }
+  .contact-aim{
+    overflow: hidden;
+  }
+  .aim-tab{
+    float: left;
+    width: 232px;
+    padding: 16px 0 8px;
+    height: 96px;
+    background-color: @contact-bg-normal;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #999;
+    &.active{
+      background-color: @contact-bg-active;
+      color: white;
+    }
+    &+.aim-tab{
+      margin-left: 12px;
+    }
+    .title{
+      display: block;
+      margin-top: 16px;
+      font-size: 14px;
+    }
+    .icon{
+      display: block;
+      width: 48px;
+      height: 48px;
+      margin: 8px auto 0;
+
+      background-image: url("../../../image/icons.png");
+      &.sup{
+        background-position: 0 -512px;
+      }
+      &.coop{
+        background-position: 0 -560px;
+      }
+      &.others{
+        background-position: 0 -608px;
+      }
+    }
+    &.active{
+      .icon{
+        &.sup{
+          background-position: -48px -512px;
+        }
+        &.coop{
+          background-position: -48px -560px;
+        }
+        &.others{
+          background-position: -48px -608px;
+        }
+      }
+    }
+  }
+
+
+  //contact form
+  .contact-form{
+    .form-group{
+      margin-top: 16px;
+      .clearfix();
+      text-align: left;
+    }
+    .group{
+      float: left;
+
+      &.group-name{
+        width: 232px;
+      }
+      &.group-email{
+        margin-left: 12px;
+        width: 476px;
+      }
+    }
+    label{
+      font-size: 14px;
+      color: #7e838b;
+      line-height: 24px;
+    }
+    textarea{
+      height: 144px;
+    }
+    input,textarea{
+      background-color: @contact-bg-normal;
+      color: #7e838b;
+      font-size: 14px;
+      border-radius: 4px;
+      padding: 8px;
+      line-height: 24px;
+      display: block;
+      outline: none;
+      border: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .contact-send{
+      float: right;
+      color: white;
+      width: 160px;
+      height: 64px;
+      line-height: 64px;
+      background-color: @contact-bg-active;
+      text-align: center;
+      border-radius: 4px;
+      font-size: 16px;
+      &:hover{
+        background-color: #3b93e3;
+      }
+      &:active{
+        background-color: #1816d0;
+      }
+    }
+  }
+}
