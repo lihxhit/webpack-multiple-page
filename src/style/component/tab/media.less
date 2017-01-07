@@ -3,13 +3,109 @@
   width: 960px;
   a.active{
     color:#247ddc;
+    &:hover{
+      text-decoration: underline;
+    }
   }
 
+}
+//Press Releases and Announcements
+#tab-media{
+  .block-press{
+    width: 720px;
+    margin: 0 auto;
+  }
+  .press-list{
+    margin-top: 32px;
+    padding-bottom: 32px;
+    position: relative;
+    //中间的分割线?but why :after?
+    &:after{
+      content: '\20';
+      position: absolute;
+      top: 28px;
+      left: 50%;
+      bottom: 0;
+      border-left: 1px solid #f1f2f4;
+    }
+    .list-wrap{
+      //margin-left: -50px;
+      //margin-right: -50px;
+      & + .list-wrap{
+        margin-top: -30px;
+
+      }
+      .clearfix();
+      display: block;
+      &:nth-child(even){
+        .list-item{
+          float: right;
+          text-align: left;
+          .icon{
+            right: auto;
+            left: -37px;
+          }
+        }
+      }
+    }
+    .list-item{
+      width: 328px;
+      float: left;
+      text-align: right;
+      position: relative;
+      //press logo
+      .logo-wrap{
+        height: 40px;
+        line-height: 40px;
+      }
+      .logo{
+        display: inline-block;
+        margin: 0 auto;
+        max-height: 40px;
+      }
+      //press time
+      .time{
+        display: block;
+        margin-top: 8px;
+        color: #999;
+        line-height: 24px;
+        font-size: 14px;
+      }
+
+      //press title
+      .title{
+        line-height: 24px;
+        font-size: 14px;
+        color: #999;
+        margin: 0;
+        padding: 0;
+        &:hover{
+          color: #247ddc;
+        }
+      }
+      .icon{
+        position: absolute;
+        right: -38px;
+        background-color: white;
+        top: 16px;
+        z-index: 10;
+        width: 11px;
+        height: 11px;
+      }
+      .dot{
+        display: block;
+        border-radius: 50%;
+        margin: 2px auto;
+        width: 7px;
+        height: 7px;
+        background-color: #f1f2f4;
+      }
+    }
+  }
 }
 //Media and SNS Reviews
 #tab-media{
   .block-review{
-
   }
   .review-list{
     .clearfix();
@@ -23,6 +119,7 @@
     height: 150px;
     padding: 26px;
     &.bottom{
+      padding-bottom: 0;
       .item-wrap{
         padding: 0 6px 16px 0;
       }
@@ -30,6 +127,7 @@
     .item-wrap{
       padding: 16px 6px 0;
       position: relative;
+      height: 120px;
     }
     .bd-r{
       right: -26px;
@@ -68,6 +166,9 @@
       font-size: 14px;
       color: #999;
       margin: 8px 0 0;
+      &:hover{
+        color: #247ddc;
+      }
     }
   }
 }
