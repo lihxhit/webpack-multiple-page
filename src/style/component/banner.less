@@ -1,13 +1,25 @@
 .banner-wrap{
+  position: relative;
   .banner-inner{
-    width: 1120px;
-    height: 480px;
-    color: white;
-    line-height: 480px;
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1120px;
+  }
+  .banner-title{
     font-size: 38px;
     font-weight: bold;
     text-align: center;
-    margin: 0 auto;
-    background: url("../../image/banner-about.jpg");
+    color: white;
+    position: absolute;
+    width: 300px;
+    margin: -25px 0 0 -150px;
+    top: 50%;
+    left: 50%;
+    height: 50px;
+    line-height: 50px;
+
   }
 }
+
+@import "banner.mq.less";
