@@ -1,6 +1,7 @@
 
 #tab-media{
-  width: 960px;
+  //width: 960px;
+  max-width: none;
   a.active{
     color:#247ddc;
     &:hover{
@@ -106,6 +107,8 @@
 //Media and SNS Reviews
 #tab-media{
   .block-review{
+    width: 960px;
+    margin: 0 auto;
   }
   .review-list{
     .clearfix();
@@ -116,9 +119,14 @@
   .review-item{
     float: left;
     width: 268px;
-    height: 150px;
+    height: 136px;
     padding: 26px;
-    &.bottom{
+    &:nth-child(3){
+      .bd-r{
+        display: none;
+      }
+    }
+    &:nth-child(4),&:nth-child(5),&:nth-child(6){
       padding-bottom: 0;
       .item-wrap{
         padding: 0 6px 16px 0;
@@ -144,6 +152,11 @@
       left: 0;
       background-color: #f1f2f4;
       width: 100%;
+    }
+    &:nth-child(4),&:nth-child(5),&:nth-child(6){
+      .bd-b{
+        display: none;
+      }
     }
     .logo-wrap{
       height: 40px;
@@ -172,3 +185,4 @@
     }
   }
 }
+@import "media.mq.less";

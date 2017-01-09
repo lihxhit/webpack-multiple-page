@@ -1,0 +1,134 @@
+@media (max-width: @screen-sm-max) {
+
+
+
+  #tab-media{
+    .block-review{
+      width: 640px;
+      margin: 0 auto;
+    }
+    .review-list{
+    }
+    .review-item{
+      &:nth-child(4){
+        padding-bottom: 26px;
+        .item-wrap{
+          padding: 16px 6px 0;
+        }
+      }
+      &:nth-child(n){
+        .bd-b{
+          display: block;
+        }
+      }
+      //&:nth-last-child(1),&:nth-last-child(2){
+      //  .bd-b{
+      //    display: none;
+      //  }
+      //}
+      &:nth-child(2n+2){
+        .bd-r{
+          display: none;
+        }
+      }
+      &:nth-child(2n+1){
+        .bd-r{
+          display: block;
+        }
+      }
+      .bd-r{
+      }
+      .bd-b{
+      }
+    }
+  }
+}
+
+@media (max-width: @screen-xs-max) {
+  #tab-media{
+    .block-press{
+      width: auto;
+      margin: 0 auto;
+    }
+    .press-list{
+      margin-top: 32px;
+      padding-bottom: 32px;
+      position: relative;
+      //中间的分割线?but why :after?
+      &:after{
+        display: none;
+      }
+      .list-wrap{
+        //margin-left: -50px;
+        //margin-right: -50px;
+        & + .list-wrap{
+          margin-top: 0;
+
+        }
+        .clearfix();
+        display: block;
+        &:nth-child(even){
+          .list-item{
+            text-align: left;
+            float: none;
+          }
+        }
+      }
+      .list-item{
+        width: auto;
+        float: none;
+        margin: 24px auto 0;
+
+        text-align: left;
+        position: relative;
+        //press logo
+        .logo-wrap{
+          height: 40px;
+          line-height: 40px;
+        }
+        .logo{
+          display: inline-block;
+          margin: 0 auto;
+          max-height: 40px;
+        }
+        //press time
+        .time{
+        }
+
+        //press title
+        .title{
+        }
+        .icon{
+          display: none;
+        }
+        .dot{
+        }
+      }
+    }
+  }
+  #tab-media{
+    .block-review{
+      width: 320px;
+      margin: 0 auto;
+    }
+    .review-list{
+    }
+    .review-item{
+      &:nth-child(n){
+        .bd-r{
+          display: none;
+        }
+        .bd-b{
+          display: block;
+        }
+
+
+      }
+      &:last-child{
+        .bd-b{
+          display: none;
+        }
+      }
+    }
+  }
+}
