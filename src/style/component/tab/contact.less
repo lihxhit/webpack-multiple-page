@@ -2,7 +2,7 @@
 @contact-bg-active:#247ddc;
 #tab-contact{
   .contact-wrap{
-    width: 720px;
+    max-width: 720px;
     margin: 0 auto;
   }
   .contact-aim{
@@ -26,36 +26,35 @@
     }
     .title{
       display: block;
-      margin-top: 16px;
+      margin-top: 8px;
       font-size: 14px;
     }
     .icon{
       display: block;
-      width: 48px;
-      height: 48px;
-      margin: 8px auto 0;
-
-      background-image: url("../../../image/icons.png");
+      width: 64px;
+      height: 64px;
+      margin: 0 auto;
+      background-size: cover;
       &.sup{
-        background-position: 0 -512px;
+        background-image: url("../../../image/contact/icon-help-nor.png");
       }
       &.coop{
-        background-position: 0 -560px;
+        background-image: url("../../../image/contact/icon-coop-nor.png");
       }
       &.others{
-        background-position: 0 -608px;
+        background-image: url("../../../image/contact/icon-more-nor.png");
       }
     }
     &.active{
       .icon{
         &.sup{
-          background-position: -48px -512px;
+          background-image: url("../../../image/contact/icon-help-act.png");
         }
         &.coop{
-          background-position: -48px -560px;
+          background-image: url("../../../image/contact/icon-coop-act.png");
         }
         &.others{
-          background-position: -48px -608px;
+          background-image: url("../../../image/contact/icon-more-act.png");
         }
       }
     }
@@ -121,3 +120,4 @@
     }
   }
 }
+@import "contact.mq.less";
