@@ -26,4 +26,9 @@ router.get('/invite', function(req, res, next) {
     // res.render('index', { title: 'Express' });
     res.redirect('/career.html')
 });
+router.get('/privacy', function(req, res, next) {
+    // res.render('index', { title: 'Express' });
+    res.redirect('/policy.html')
+});
+// privacy
 module.exports = router;
