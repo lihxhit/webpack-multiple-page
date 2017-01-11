@@ -4,7 +4,7 @@
  * @description
  */
 require('../style/common.less');
-
+console.log($('html'));
 
 if (module.hot) {
     module.hot.accept();

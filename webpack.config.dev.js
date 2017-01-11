@@ -25,11 +25,11 @@ let webpackConfig = {
         loaders: [
             {
                 test: /\.html$/,
-                loader: 'html'
+                loader: 'html?minimize=false'
             },
             {
                 test: /\.ejs$/,
-                loaders: ['html','ejs-html']
+                loaders: ['html?minimize=false','ejs-html']
             },
             {
                 test: /\.js$/,
@@ -38,6 +38,10 @@ let webpackConfig = {
                 query: {
                     presets: ['es2015']
                 }
+            },
+            {
+                test: require.resolve('jquery'),  // 此loader配置项的目标是NPM中的jquery
+                loader: 'expose?$!expose?jQuery', // 先把jQuery对象声明成为全局变量`jQuery`，再通过管道进一步又声明成为全局变量`$`
             },
             {
                 test: /(\.css|\.less)$/,
@@ -67,6 +71,12 @@ let webpackConfig = {
         require('autoprefixer')()
     ],
     plugins: [
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            'window.$': 'jquery',
+        }),
         // Webpack 1.0
         new webpack.optimize.OccurenceOrderPlugin(),
         // Webpack 2.0 fixed this mispelling
