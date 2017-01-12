@@ -18,7 +18,7 @@ let webpackConfig = {
     output: {
         publicPath:'/',
         path: path.resolve(__dirname, 'dist'),
-        filename: 'scripts/[name].[chunkhash:8].js'
+        filename: 'scripts/third/[name].[chunkhash:8].js'
     },
     devtool: 'source-map',
     module: {
@@ -46,16 +46,16 @@ let webpackConfig = {
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'file?name=image/third/[name].[hash:8].[ext]'
+                loader: 'file?name=images/third/[name].[hash:8].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
                 test: /\.gif$/,
-                loader: 'file?name=image/third/[name].[hash:8].[ext]'
+                loader: 'file?name=images/third/[name].[hash:8].[ext]'
             },
             {
                 test: /\.ico$/,
-                loader: 'file?name=image/third/[name].[hash:8].[ext]'
+                loader: 'file?name=images/third/[name].[hash:8].[ext]'
             },
             {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
             {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
@@ -85,9 +85,9 @@ let webpackConfig = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: "commonThird",
-            filename: 'scripts/commonThird.[chunkhash:8].js'
+            filename: 'scripts/third/commonThird.[chunkhash:8].js'
         }),
-        new ExtractTextPlugin('styles/[name].[contenthash:8].css'),
+        new ExtractTextPlugin('styles/third/[name].[contenthash:8].css'),
         // Eliminate duplicate packages when generating bundle
         new webpack.optimize.DedupePlugin(),
 
