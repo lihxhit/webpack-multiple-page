@@ -125,5 +125,33 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    (function () {
+
+        var methodList = ['support', 'cooperation', 'others'];
+        var method = methodList[0];
+        $('.aim-tab').on('click', function () {
+            var $this = $(this);
+            $('.aim-tab').removeClass('active');
+            $this.addClass('active');
+            method = methodList[$this.index()];
+            console.log(method);
+        });
+        $('#btn_send').on('click', function () {
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var mes = $('#message').val();
+            sa.track('btn_click', {
+
+                contact_name: name,
+                contact_email: email,
+                contact_mes: mes,
+                contact_method: method
+            });
+        });
+    })();
+
+
+</script>
 </body>
 </html>
