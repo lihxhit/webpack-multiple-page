@@ -11,6 +11,7 @@ require('../style/app.less');
 // }else{
 //     alert('prod!')
 // }
+// console.log($('html'));
 if (module.hot) {
     module.hot.accept();
 }
