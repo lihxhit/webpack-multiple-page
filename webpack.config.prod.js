@@ -7,6 +7,8 @@
 let glob = require('glob');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let WebpackMd5Hash = require('webpack-md5-hash');
+var ManifestPlugin = require('webpack-manifest-plugin');
 let webpack = require('webpack');
 let path = require('path');
 const fs = require('fs');
@@ -71,6 +73,11 @@ let webpackConfig = {
         'calc': false // calc is no longer necessary, as it is already done by postcss-fixes due to precision rounding reasons
     })],
     plugins: [
+        new WebpackMd5Hash(),
+        new ManifestPlugin({
+            fileName: 'manifest.json',
+            basePath: './dist/'
+        }),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
