@@ -3,7 +3,7 @@
  * @date 2016/12/29
  * @description
  */
-// webpack.config for production
+// webpack.config for development
 let glob = require('glob');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
@@ -25,11 +25,11 @@ let webpackConfig = {
         loaders: [
             {
                 test: /\.html$/,
-                loader: 'html?minimize=false'
+                loader: 'html-loader?minimize=false'
             },
             {
                 test: /\.ejs$/,
-                loaders: ['html?minimize=false','ejs-html']
+                loaders: ['html-loader?minimize=false','ejs-html-loader']
             },
             {
                 test: /\.js$/,
@@ -41,35 +41,31 @@ let webpackConfig = {
             },
             {
                 test: require.resolve('jquery'),  // 此loader配置项的目标是NPM中的jquery
-                loader: 'expose?$!expose?jQuery', // 先把jQuery对象声明成为全局变量`jQuery`，再通过管道进一步又声明成为全局变量`$`
+                loader: 'expose-loader?$!expose-loader?jQuery', // 先把jQuery对象声明成为全局变量`jQuery`，再通过管道进一步又声明成为全局变量`$`
             },
             {
                 test: /(\.css|\.less)$/,
-                loaders: ['style', 'css?sourceMap', 'postcss', 'less?sourceMap']
+                loaders: ['style-loader', 'css-loader?sourceMap', 'postcss-loader', 'less-loader?sourceMap']
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'file?name=image/[name].[ext]'
+                loader: 'file-loader?name=image/[name].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
                 test: /\.gif$/,
-                loader: 'file?name=image/[name].[ext]'
+                loader: 'file-loader?name=image/[name].[ext]'
             },
             {
                 test: /\.ico$/,
-                loader: 'file?name=image/[name].[ext]'
+                loader: 'file-loader?name=image/[name].[ext]'
             },
-            {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[name].[ext]'},
-            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[name].[ext]'}
+            {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[name].[ext]'},
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=fonts/[name].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[name].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?name=fonts/[name].[ext]'}
         ]
     },
-    postcss: ()=> [
-        require('postcss-fixes')(),
-        require('autoprefixer')()
-    ],
     plugins: [
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -77,12 +73,8 @@ let webpackConfig = {
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
         }),
-        // Webpack 1.0
-        new webpack.optimize.OccurenceOrderPlugin(),
-        // Webpack 2.0 fixed this mispelling
-        // new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             'process.env'  : {
                 'NODE_ENV' : JSON.stringify('development')
@@ -137,7 +129,7 @@ Object.keys(entries).forEach(function (name) {
         inject: true,
         // 每个html引用的js模块，也可以在这里加上vendor等公用模块
         chunks: chunks,
-        chunksSortMode:'none'
+        chunksSortMode:'dependency'
     });
     webpackConfig.plugins.push(plugin);
 });

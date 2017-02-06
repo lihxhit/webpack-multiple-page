@@ -4,6 +4,7 @@
  * @description
  */
 require('../style/common.less');
+require('jquery');
 
 if (module.hot) {
     module.hot.accept();

@@ -24,59 +24,58 @@ let webpackConfig = {
     },
     devtool: 'source-map',
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.html$/,
-                loader: 'html?minimize=false'
+                loader: 'html-loader?minimize=false'
             },
             {
                 test: /\.ejs$/,
-                loaders: ['html?minimize=false','ejs-html']
+                use: ['html-loader?minimize=false','ejs-html-loader']
             },
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel?presets[]=es2015',
+                loader: 'babel-loader?presets[]=es2015',
             },
             {
                 test: require.resolve('jquery'),  // 此loader配置项的目标是NPM中的jquery
-                loader: 'expose?$!expose?jQuery', // 先把jQuery对象声明成为全局变量`jQuery`，再通过管道进一步又声明成为全局变量`$`
+                loader: 'expose-loader?$!expose-loader?jQuery', // 先把jQuery对象声明成为全局变量`jQuery`，再通过管道进一步又声明成为全局变量`$`
             },
             {
                 test: /(\.css|\.less)$/,
-                loader: ExtractTextPlugin.extract('css?sourceMap!postcss!less')
+                loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!less-loader')
             },
             {
                 test: /\.(jpe?g|png)$/i,
-                loader: 'file?name=images/third/[name].[hash:8].[ext]'
+                loader: 'file-loader?name=images/third/[name].[hash:8].[ext]'
                 // &publicPath=/assets/image/&outputPath=app/images/'
             },
             {
                 test: /\.gif$/,
-                loader: 'file?name=images/third/[name].[hash:8].[ext]'
+                loader: 'file-loader?name=images/third/[name].[hash:8].[ext]'
             },
             {
                 test: /\.ico$/,
-                loader: 'file?name=images/third/[name].[hash:8].[ext]'
+                loader: 'file-loader?name=images/third/[name].[hash:8].[ext]'
             },
-            {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'},
-            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file?name=fonts/[hash:8].[ext]'}
+            {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[hash:8].[ext]'},
+            {test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader?name=fonts/[hash:8].[ext]'},
+            {test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, loader: 'file-loader?name=fonts/[hash:8].[ext]'},
+            {test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'file-loader?name=fonts/[hash:8].[ext]'}
         ]
     },
-    postcss: ()=> [
-        require('postcss-fixes')(),
-        require('autoprefixer')(),
-        require('cssnano')({
-        'safe': true, // I would recommend using cssnano only in safe mode
-        'calc': false // calc is no longer necessary, as it is already done by postcss-fixes due to precision rounding reasons
-    })],
+    // postcss: ()=> [
+    //     require('postcss-fixes')(),
+    //     require('autoprefixer')(),
+    //     require('cssnano')({
+    //     'safe': true, // I would recommend using cssnano only in safe mode
+    //     'calc': false // calc is no longer necessary, as it is already done by postcss-fixes due to precision rounding reasons
+    // })],
     plugins: [
         new WebpackMd5Hash(),
         new ManifestPlugin({
             fileName: 'manifest.json',
-            basePath: './dist/'
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -84,7 +83,6 @@ let webpackConfig = {
             'window.jQuery': 'jquery',
             'window.$': 'jquery',
         }),
-        new webpack.optimize.OccurenceOrderPlugin(),
         new webpack.DefinePlugin({
             'process.env'  : {
                 'NODE_ENV' : JSON.stringify('production')
@@ -95,12 +93,12 @@ let webpackConfig = {
             filename: 'scripts/third/commonThird.[chunkhash:8].js'
         }),
         new ExtractTextPlugin('styles/third/[name].[contenthash:8].css'),
-        // Eliminate duplicate packages when generating bundle
-        new webpack.optimize.DedupePlugin(),
-
         // Minify JS
         new webpack.optimize.UglifyJsPlugin({
-            comments:false
+            comments:false,
+            sourceMap: true,
+            warnings: true,
+            minimize: true
         })
     ]
 };
@@ -149,7 +147,7 @@ Object.keys(entries).forEach(function (name) {
         inject: true,
         // 每个html引用的js模块，也可以在这里加上vendor等公用模块
         chunks: chunks,
-        chunksSortMode:'none',
+        chunksSortMode:'dependency',
 
     });
     webpackConfig.plugins.push(plugin);

@@ -1,11 +1,11 @@
 @media (max-width: @screen-md-max) {
   .footer-wrap{
-    display: none;
+    //display: none;
     border-top: 1px solid #f1f2f4;
     padding-bottom: 64px;
   }
   .footer-inner{
-    width: 1102px;
+    width: auto;
     margin: 0 auto;
     padding-top: 32px;
     line-height: 32px;
@@ -14,20 +14,19 @@
     .clearfix();
     //footer logo
     .logo-wrap{
-      float: left;
-      width: 256px;
+      float: none;
+      width: auto;
     }
     .footer-logo{
-      float: left;
-      width: 120px;
-      height: 80px;
-      background-image: url("../../image/icons.png");
-      background-position: 0 -400px;
+      display: block;
+      float: none;
+      margin: 0 auto;
     }
     //footer nav list
     .footer-block{
       float: left;
       width: 192px;
+      display: none;
     }
     .block-title{
       font-size: 14px;
@@ -48,8 +47,9 @@
     }
     //language block
     .language-block{
-      width: 270px;
-      float: left;
+      width: auto;
+      float: none;
+      text-align: center;
       .copyright{
         display: block;
       }

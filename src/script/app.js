@@ -5,13 +5,12 @@
  */
 require('../style/common.less');
 require('../style/app.less');
-
+require('jquery');
 // if(process.env.NODE_ENV === '???'){
 //     console.log('!!')
 // }else{
 //     alert('prod!')
 // }
-// console.log($('html'));
 if (module.hot) {
     module.hot.accept();
 }
